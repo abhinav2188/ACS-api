@@ -1,0 +1,99 @@
+@tailwind base;
+
+.animation-scale{
+    @apply transform;
+    @apply duration-75;
+    @apply transition-all;
+    @apply ease-out;
+    @apply scale-100;
+}
+.animation-scale:hover{
+    @apply scale-105;
+}
+.svg-button:hover{
+    @apply text-orange-mid;
+}
+h1{
+    @apply text-2xl;
+}
+h2{
+    @apply text-xl;
+}
+h3{
+    @apply text-lg;
+}
+h4{
+    @apply text-base;
+}
+p{
+    @apply text-xs;
+}
+h6{
+    @apply text-2xs;
+}
+button:focus,input:focus,a:focus{
+    @apply outline-none;
+}
+@screen md{
+    h1{
+        @apply text-3xl;
+    }
+    h2{
+        @apply text-2xl;
+    }
+    h3{
+        @apply text-xl;
+    }
+    h4{
+        @apply text-lg;
+    }
+    p{
+        @apply text-sm;
+    }
+    h6{
+        @apply text-xs;
+    }
+    
+}
+@screen xl {
+    h1{
+        @apply text-4xl;
+    }
+    h2{
+        @apply text-3xl;
+    }
+    h3{
+        @apply text-2xl;
+    }
+    h4{
+        @apply text-xl;
+    }
+    h6{
+        @apply text-sm;
+    }
+    p{
+        @apply text-base;
+    }
+}
+
+@tailwind components;
+
+@tailwind utilities;
+
+@responsive{
+    .w-72{
+        width:18rem;
+    }
+    .w-80{
+        width:20rem;
+    }
+    .h-36{
+        height:9rem;
+    }
+    .w-36{
+        width:9rem;
+    }
+    .mt-28{
+        margin-top:7rem;
+    }
+} 

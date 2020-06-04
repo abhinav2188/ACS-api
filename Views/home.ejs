@@ -1,0 +1,20 @@
+<%- include('partials/header.ejs') -%>
+
+  <div class="">
+    <h3>ADD new service</h3>
+    <form action="/service" method="post" enctype="multipart/form-data" class="flex flex-col p-4 border bg-gray-200">
+      <p>Name:</p>
+      <input type="text" name="name" class="border"/>
+      <br/>
+      <p>Headline:</p>
+      <textarea name="headline" rows=2 class="border"></textarea>
+      <br/>
+      <p>Service Logo:</p>
+      <input type="file" placeholder="upload service image" name="serviceLogo"  class="border"/>
+      <br/>
+      <br/>
+      <button type="submit" class="bg-gray-dark text-orange-mid self-center px-2">Add</button>
+    </form>
+  </div>
+ 
+<%- include('partials/footer.ejs') -%>  
