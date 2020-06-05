@@ -14,13 +14,13 @@ const logger = (req, res, next) => {
 };
 app.use(logger);
 
-const db = require("./config/db");
-
 const authRoute = require('./routes/auth');
 app.use('/api/admin', authRoute);
 app.use('/api/service',require("./routes/service"));
 app.use('/api/file',require('./routes/files'));
 app.use('/api/products',require('./routes/product'));
+app.use('/api/testimonial',require('./routes/testimonial'));
+
 
 //@route /
 app.get("/", (req, res) => {
