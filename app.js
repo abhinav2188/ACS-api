@@ -14,8 +14,7 @@ const logger = (req, res, next) => {
 };
 app.use(logger);
 
-const authRoute = require('./routes/auth');
-app.use('/api/admin', authRoute);
+app.use('/api',require("./routes/auth"));
 app.use('/api/service',require("./routes/service"));
 app.use('/api/file',require('./routes/files'));
 app.use('/api/products',require('./routes/product'));

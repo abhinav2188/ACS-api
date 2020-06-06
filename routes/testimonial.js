@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Testimonial = require("../model/Testimonial");
 const db = require("../config/db");
+const authorizeRequest = require("../middleware/authorize");
 
 //@desc fetch all testimonials
 router.get("/all", (req, res) => {
@@ -15,7 +16,7 @@ router.get("/all", (req, res) => {
 });
 
 //@desc add new testimonial
-router.post("/", db.upload.single("testimonialAvatar"), (req, res) => {
+router.post("/",authorizeRequest, db.upload.single("testimonialAvatar"), (req, res) => {
   const data = req.body;
   const newTestimonial = new Testimonial({
     name: data.testimonialName,
@@ -46,7 +47,7 @@ router.get("/:tid", (req, res) => {
 });
 
 //@desc delete a testimonial with its id
-router.delete("/:tid", (req, res) => {
+router.delete("/:tid",authorizeRequest, (req, res) => {
   Testimonial.findOneAndDelete({ _id: req.params.tid }, (err, result) => {
     if (err) res.status(400).json({ success: false, error: err.message });
     else {
@@ -63,7 +64,7 @@ router.delete("/:tid", (req, res) => {
 });
 
 // @desc updata a testimonial data
-router.patch("/:tid", db.upload.single("testimonialAvatar"), (req, res) => {
+router.patch("/:tid",authorizeRequest, db.upload.single("testimonialAvatar"), (req, res) => {
   Testimonial.findOne({ _id: req.params.tid }, (err, testimonial) => {
     if (err) res.status(400).json({ success: false, error: err.message });
     else {

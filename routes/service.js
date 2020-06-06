@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Service = require("../model/Service");
 const db = require("../config/db");
+const authorizeRequest = require("../middleware/authorize");
 
 //@desc fetch all services
 router.get("/all", (req, res) => {
@@ -15,7 +16,7 @@ router.get("/all", (req, res) => {
 });
 
 //@desc add new service
-router.post("/", db.upload.single("serviceLogo"), (req, res) => {
+router.post("/", authorizeRequest ,db.upload.single("serviceLogo"), (req, res) => {
   const data = req.body;
   const newService = new Service({
     name: data.serviceName,
@@ -46,7 +47,7 @@ router.get("/:serviceName", (req, res) => {
 });
 
 //@desc delete a service with its name
-router.delete("/:serviceName", (req, res) => {
+router.delete("/:serviceName",authorizeRequest, (req, res) => {
   Service.findOneAndDelete({ name: req.params.serviceName }, (err, result) => {
     if (err) res.status(400).json({ success: false, error: err.message });
     else {
@@ -63,7 +64,7 @@ router.delete("/:serviceName", (req, res) => {
 });
 
 // @desc updata a service data
-router.patch("/:serviceName", db.upload.single("serviceLogo"), (req, res) => {
+router.patch("/:serviceName",authorizeRequest, db.upload.single("serviceLogo"), (req, res) => {
   Service.findOne({ name: req.params.serviceName }, (err, service) => {
     if (err) res.status(400).json({ success: false, error: err.message });
     else {

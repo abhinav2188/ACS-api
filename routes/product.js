@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const Service = require("../model/Service");
 const db = require("../config/db");
-
+const authorizeRequest = require("../middleware/authorize");
 
 //@desc fetch all products with serviceName
 router.get("/:serviceName/all", (req, res) => {
@@ -16,7 +16,7 @@ router.get("/:serviceName/all", (req, res) => {
 });
 
 //@desc route to add product to a service
-router.put("/:serviceName", db.upload.single("productImage"), (req, res) => {
+router.put("/:serviceName",authorizeRequest, db.upload.single("productImage"), (req, res) => {
   const body = req.body;
   const serviceName = req.params.serviceName;
   const newProduct ={
@@ -37,7 +37,7 @@ router.put("/:serviceName", db.upload.single("productImage"), (req, res) => {
 });
 
 //@desc delete a product
-router.delete("/:serviceName/:productID", (req, res) => {
+router.delete("/:serviceName/:productID",authorizeRequest, (req, res) => {
   const serviceName = req.params.serviceName;
   const productID = req.params.productID;
   Service.findOne({ name: serviceName }, (err, service) => {

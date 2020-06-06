@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Client = require("../model/Client");
 const db = require("../config/db");
+const authorizeRequest = require("../middleware/authorize");
 
 //@desc fetch all clients
 router.get("/all", (req, res) => {
@@ -15,7 +16,7 @@ router.get("/all", (req, res) => {
 });
 
 //@desc add new client
-router.post("/", db.upload.single("clientLogo"), (req, res) => {
+router.post("/",authorizeRequest, db.upload.single("clientLogo"), (req, res) => {
   const data = req.body;
   const newClient = new Client({
     name: data.clientName,
@@ -28,8 +29,8 @@ router.post("/", db.upload.single("clientLogo"), (req, res) => {
 });
 
 //@desc retrieve a client with its id
-router.get("/:tid", (req, res) => {
-  Client.findOne({ _id: req.params.tid }, (err, result) => {
+router.get("/:id", (req, res) => {
+  Client.findOne({ _id: req.params.id }, (err, result) => {
     if (err) res.status(400).json({ success: false, error: err.message });
     else {
       if (!result)
@@ -45,8 +46,8 @@ router.get("/:tid", (req, res) => {
 });
 
 //@desc delete a client with its id
-router.delete("/:tid", (req, res) => {
-  Client.findOneAndDelete({ _id: req.params.tid }, (err, result) => {
+router.delete("/:id",authorizeRequest, (req, res) => {
+  Client.findOneAndDelete({ _id: req.params.id }, (err, result) => {
     if (err) res.status(400).json({ success: false, error: err.message });
     else {
       if (!result)
@@ -62,8 +63,8 @@ router.delete("/:tid", (req, res) => {
 });
 
 // @desc updata a client data
-router.patch("/:tid", db.upload.single("clientLogo"), (req, res) => {
-  Client.findOne({ _id: req.params.tid }, (err, client) => {
+router.patch("/:id",authorizeRequest, db.upload.single("clientLogo"), (req, res) => {
+  Client.findOne({ _id: req.params.id }, (err, client) => {
     if (err) res.status(400).json({ success: false, error: err.message });
     else {
       if (!client)
