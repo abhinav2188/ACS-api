@@ -1,18 +1,16 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+const dotenv = require('dotenv');
+const cors = require('cors');
+dotenv.config();
+app.use(cors());
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public/"));
 app.set("view engine", "ejs");
-const dotenv = require('dotenv');
-dotenv.config();
-
 // middleware to log all requests
-const logger = (req, res, next) => {
-  console.log("logger @route", req.method ,req.url);
-  next();
-};
-app.use(logger);
+app.use(require("./middleware/logger"));
 
 app.use('/api',require("./routes/auth"));
 app.use('/api/service',require("./routes/service"));
@@ -22,11 +20,14 @@ app.use('/api/testimonial',require('./routes/testimonial'));
 app.use('/api/testimonial',require('./routes/testimonial'));
 app.use('/api/client',require('./routes/client'));
 
+const filesCleanup = require('./middleware/filesCleanup');
+app.delete('/api/filesCleanup' ,async (req,res) => {
+  res.send(await filesCleanup());
+})
 
 //@route /
 app.get("/", (req, res) => {
   res.render("home");
 });
 
-
-app.listen(3000, console.log("server started at port 3000"));
+app.listen(3001, console.log("server started at port 3001"));
