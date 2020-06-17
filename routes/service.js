@@ -5,7 +5,7 @@ const authorizeRequest = require("../middleware/authorize");
 
 //@desc fetch all services
 router.get("/all", (req, res) => {
-  Service.find({}, (err, result) => {
+  Service.find({},{name:1,headline:1,serviceLogo:1}, (err, result) => {
     if (err) res.status(400).json({ msg: "error fetching services" });
     else
       res.status(200).json({
@@ -31,7 +31,7 @@ router.post("/", authorizeRequest ,db.upload.single("serviceLogo"), (req, res) =
 
 //@desc retrieve a service with its name
 router.get("/:serviceName", (req, res) => {
-  Service.findOne({ name: req.params.serviceName }, (err, result) => {
+  Service.findOne({ name: req.params.serviceName },{products:0}, (err, result) => {
     if (err) res.status(400).json({ success: false, error: err.message });
     else {
       if (!result)
@@ -46,9 +46,11 @@ router.get("/:serviceName", (req, res) => {
   });
 });
 
-//@desc delete a service with its name
-router.delete("/:serviceName",authorizeRequest, (req, res) => {
-  Service.findOneAndDelete({ name: req.params.serviceName }, (err, result) => {
+//@desc delete a service with its id
+router.delete("/:id",authorizeRequest, (req, res) => {
+  console.log("here");
+  console.log("delete",req.params.id);
+  Service.findOneAndDelete({ _id: req.params.id }, (err, result) => {
     if (err) res.status(400).json({ success: false, error: err.message });
     else {
       if (!result)

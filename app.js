@@ -17,7 +17,6 @@ app.use('/api/service',require("./routes/service"));
 app.use('/api/file',require('./routes/files'));
 app.use('/api/products',require('./routes/product'));
 app.use('/api/testimonial',require('./routes/testimonial'));
-app.use('/api/testimonial',require('./routes/testimonial'));
 app.use('/api/client',require('./routes/client'));
 
 const filesCleanup = require('./middleware/filesCleanup');
