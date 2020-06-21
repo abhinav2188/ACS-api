@@ -6,9 +6,9 @@ const ClientSchema = mongoose.Schema({
     required: true,
   },
   logoUrl: {
-      type:String,
-      required: true
-  }
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("client", ClientSchema);

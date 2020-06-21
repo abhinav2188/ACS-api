@@ -7,12 +7,16 @@ const Grid = require("gridfs-stream");
 const mongoose = require("mongoose");
 
 //connecting to database
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    autoCreate: true,
+    autoIndex: true,
+  })
+  .then(() => console.log("database connected"));
 const conn = mongoose.connection;
-
 
 //gridfs storage component
 var storage = new GridFsStorage({
@@ -36,4 +40,4 @@ var storage = new GridFsStorage({
 });
 const upload = multer({ storage });
 
-module.exports={upload,conn}
+module.exports = { upload, conn };
