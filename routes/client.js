@@ -23,7 +23,7 @@ router.post("/",authorizeRequest, db.upload.single("clientLogo"), (req, res) => 
     logoUrl: req.file ? req.file.filename : "",
   });
   newClient.save((err) => {
-    if (!err) res.status(200).json({ success: true, created: newClient });
+    if (!err) res.status(201).json({ success: true, created: newClient });
     else res.status(400).json({ success: false, error: err.message });
   });
 });

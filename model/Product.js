@@ -25,7 +25,6 @@ const ProductSchema = mongoose.Schema({
         ref: 'Service',
         required:true
     }
-
   });
   ProductSchema.index({name:1,ISN:1},{unique:true})
   

@@ -5,14 +5,14 @@ router.post("/login", (req, res) => {
   if (!req.body.username || !req.body.password)
     res
       .status(400)
-      .json({ success: false, error: "username or password field is empty" });
+      .json("username or password field is empty");
   else if (
     req.body.username !== process.env.ADMIN ||
     req.body.password !== process.env.PASSWORD
   )
     res
       .status(400)
-      .json({ success: false, error: "username or password is incorrect" });
+      .json("username or password is incorrect");
   else {
     const token = jwt.sign(
       { username: process.env.ADMIN },
@@ -22,7 +22,7 @@ router.post("/login", (req, res) => {
     res
       .header("auth-token", token)
       .status(200)
-      .json({ success: true, token: token });
+      .json(token);
   }
 });
 

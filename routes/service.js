@@ -8,10 +8,7 @@ router.get("/all", (req, res) => {
   Service.find({},{name:1,headline:1,serviceLogo:1}, (err, result) => {
     if (err) res.status(400).json({ msg: "error fetching services" });
     else
-      res.status(200).json({
-        success: true,
-        data: result,
-      });
+      res.status(200).json(result);
   });
 });
 
@@ -24,23 +21,20 @@ router.post("/", authorizeRequest ,db.upload.single("serviceLogo"), (req, res) =
     serviceLogo: req.file ? req.file.filename : "",
   });
   newService.save((err) => {
-    if (!err) res.status(200).json({ success: true, created: newService });
-    else res.status(400).json({ success: false, error: err.message });
+    if (!err) res.status(201).json("created servcie "+newService.name);
+    else res.status(400).json(err.message);
   });
 });
 
 //@desc retrieve a service with its name
 router.get("/:serviceName", (req, res) => {
   Service.findOne({ name: req.params.serviceName },{products:0}, (err, result) => {
-    if (err) res.status(400).json({ success: false, error: err.message });
+    if (err) res.status(400).json(err.message );
     else {
       if (!result)
-        res.status(404).json({ success: false, error: "service not found" });
+        res.status(404).json("service not found");
       else {
-        res.status(200).json({
-          success: true,
-          data: result,
-        });
+        res.status(200).json(result);
       }
     }
   });
@@ -51,15 +45,12 @@ router.delete("/:id",authorizeRequest, (req, res) => {
   console.log("here");
   console.log("delete",req.params.id);
   Service.findOneAndDelete({ _id: req.params.id }, (err, result) => {
-    if (err) res.status(400).json({ success: false, error: err.message });
+    if (err) res.status(400).json(err.message );
     else {
       if (!result)
-        res.status(404).json({ success: false, error: "service not found" });
+        res.status(404).json("service not found");
       else {
-        res.status(200).json({
-          success: true,
-          deleted: result,
-        });
+        res.status(200).json("service deleted "+result.name);
       }
     }
   });
@@ -68,18 +59,18 @@ router.delete("/:id",authorizeRequest, (req, res) => {
 // @desc updata a service data
 router.patch("/:serviceName",authorizeRequest, db.upload.single("serviceLogo"), (req, res) => {
   Service.findOne({ name: req.params.serviceName }, (err, service) => {
-    if (err) res.status(400).json({ success: false, error: err.message });
+    if (err) res.status(400).json(err.message);
     else {
       if (!service)
-        res.status(404).json({ success: false, error: "service not found" });
+        res.status(404).json("service not found");
       else {
         if (req.body.serviceName) service.name = req.body.serviceName;
         if (req.body.serviceHeadline)
           service.headline = req.body.serviceHeadline;
         if (req.file) service.serviceLogo = req.file.filename;
         service.save((err) => {
-          if (!err) res.status(200).json({ success: true, updated: service });
-          else res.status(400).json({ success: false, error: err.message });
+          if (!err) res.status(200).json(service);
+          else res.status(400).json(err.message);
         });
       }
     }

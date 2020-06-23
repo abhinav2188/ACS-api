@@ -24,7 +24,7 @@ router.post("/",authorizeRequest, db.upload.single("testimonialAvatar"), (req, r
     avatarUrl: req.file ? req.file.filename : "",
   });
   newTestimonial.save((err) => {
-    if (!err) res.status(200).json({ success: true, created: newTestimonial });
+    if (!err) res.status(201).json({ success: true, created: newTestimonial });
     else res.status(400).json({ success: false, error: err.message });
   });
 });
