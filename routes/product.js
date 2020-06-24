@@ -36,7 +36,7 @@ router.post(
       service: body.serviceId,
     });
     newProduct.save((err) => {
-      if (!err) res.status(201).json(newProduct);
+      if (!err) res.status(201).json("created product : "+newProduct.name);
       else res.status(400).json(err.message);
     });
   }
@@ -67,13 +67,13 @@ router.patch(
           res.status(404).json("product not found");
         else {
           if (req.body.productName) product.name = req.body.productName;
-          if (req.body.productISN) product.productISN = req.body.productISN;
+          if (req.body.productISN) product.ISN = req.body.productISN;
           if (req.file) product.productImageUrl = req.file.filename;
           if (req.body.dateOfImplementation)
             product.DOI = req.body.dateOfImplementation;
           if (req.body.onDisplay) product.onDisplay = req.body.onDisplay;
           product.save((err) => {
-            if (!err) res.status(200).json("updated product");
+            if (!err) res.status(200).json("updated product "+product.name);
             else res.status(400).json(err.message);
           });
         }

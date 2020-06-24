@@ -11,7 +11,6 @@ const TestimonialSchema = mongoose.Schema({
   },
   avatarUrl: {
       type:String,
-      required: true
   }
 });
 

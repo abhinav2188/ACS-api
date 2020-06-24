@@ -21,7 +21,7 @@ router.post("/", authorizeRequest ,db.upload.single("serviceLogo"), (req, res) =
     serviceLogo: req.file ? req.file.filename : "",
   });
   newService.save((err) => {
-    if (!err) res.status(201).json("created servcie "+newService.name);
+    if (!err) res.status(201).json("created servcie : "+newService.name);
     else res.status(400).json(err.message);
   });
 });
@@ -50,7 +50,7 @@ router.delete("/:id",authorizeRequest, (req, res) => {
       if (!result)
         res.status(404).json("service not found");
       else {
-        res.status(200).json("service deleted "+result.name);
+        res.status(200).json("service deleted : "+result.name);
       }
     }
   });
@@ -69,7 +69,7 @@ router.patch("/:serviceName",authorizeRequest, db.upload.single("serviceLogo"), 
           service.headline = req.body.serviceHeadline;
         if (req.file) service.serviceLogo = req.file.filename;
         service.save((err) => {
-          if (!err) res.status(200).json(service);
+          if (!err) res.status(200).json("service updated : "+service.name);
           else res.status(400).json(err.message);
         });
       }
